@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winla OS — MicroSolft Corporation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&family=Courier+Prime:wght@400;700&display=swap');
+
+  :root {
+    --ms-blue: #0067b8;
+    --ms-dark: #1a1a2e;
+    --ms-light: #f3f3f3;
+    --ms-accent: #ffb900;
+    --ms-red: #d13438;
+    --ms-green: #107c10;
+    --chaos1: #ff00ff;
+    --chaos2: #00ffff;
+    --chaos3: #ff6600;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background: var(--ms-light);
+    color: #1a1a1a;
+    overflow-x: hidden;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  }
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+  .logo-squares {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    width: 22px;
+    height: 22px;
+  }
+  .logo-squares span {
+    display: block;
+    border-radius: 1px;
+  }
+  .logo-squares span:nth-child(1) { background: #f25022; }
+  .logo-squares span:nth-child(2) { background: #7fba00; }
+  .logo-squares span:nth-child(3) { background: #00a4ef; }
+  .logo-squares span:nth-child(4) { background: #ffb900; }
+
+  .topbar-nav { display: flex; gap: 28px; }
+  .topbar-nav a {
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color .2s, color .2s;
+  }
+  .topbar-nav a:hover { color: var(--ms-blue); border-bottom-color: var(--ms-blue); }
+
+  .topbar-cta {
+    background: var(--ms-blue);
+    color: #fff;
+    border: none;
+    padding: 6px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .topbar-cta:hover { background: #005a9e; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0067b8 0%, #1a1a2e 60%, #003a6e 100%);
+    color: #fff;
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,.015) 40px,
+      rgba(255,255,255,.015) 80px
+    );
+  }
+  /* decorative chaos squares behind */
+  .hero-bg-squares {
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 500px;
+    height: 500px;
+    opacity: .08;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    transform: rotate(15deg);
+  }
+  .hero-bg-squares div {
+    border-radius: 4px;
+    animation: squarepulse 3s infinite alternate;
+  }
+  .hero-bg-squares div:nth-child(4n+1) { background: #f25022; animation-delay: 0s; }
+  .hero-bg-squares div:nth-child(4n+2) { background: #7fba00; animation-delay: .5s; }
+  .hero-bg-squares div:nth-child(4n+3) { background: #00a4ef; animation-delay: 1s; }
+  .hero-bg-squares div:nth-child(4n+4) { background: #ffb900; animation-delay: 1.5s; }
+  @keyframes squarepulse { from { opacity: .4; } to { opacity: 1; } }
+
+  .hero-text { flex: 1; position: relative; z-index: 1; max-width: 560px; }
+  .hero-badge {
+    display: inline-block;
+    background: var(--ms-accent);
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+  .hero h1 strong { font-weight: 700; }
+  .hero-sub {
+    font-size: 20px;
+    color: rgba(255,255,255,.75);
+    margin: 16px 0 32px;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: #fff;
+    color: var(--ms-blue);
+    border: none;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+  .btn-secondary {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,.5);
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color .2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: #fff; }
+
+  /* fake OS preview box */
+  .hero-preview {
+    flex: 0 0 380px;
+    position: relative;
+    z-index: 1;
+  }
+  .os-mockup {
+    background: #000;
+    border: 2px solid #333;
+    border-radius: 2px;
+    overflow: hidden;
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  }
+  .os-title {
+    background: #c0c0c0;
+    color: #000;
+    padding: 3px 6px;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .os-title-btns { display: flex; gap: 4px; }
+  .os-title-btns span {
+    width: 14px;
+    height: 14px;
+    background: #808080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #000;
+    border: 1px solid #404040;
+    cursor: pointer;
+  }
+  .os-body {
+    padding: 8px;
+    line-height: 1.6;
+  }
+  .os-line { display: flex; gap: 6px; margin: 1px 0; }
+  /* rainbow text chaos */
+  .r1 { color: #ff4444; }
+  .r2 { color: #ff8800; }
+  .r3 { color: #ffff00; }
+  .r4 { color: #44ff44; }
+  .r5 { color: #44ffff; }
+  .r6 { color: #4444ff; }
+  .r7 { color: #ff44ff; }
+  .r8 { color: #ffffff; }
+
+  .os-bar {
+    height: 3px;
+    background: linear-gradient(90deg, #f25022, #ffb900, #7fba00, #00a4ef, #ff00ff);
+    animation: barscroll 2s linear infinite;
+    background-size: 200% 100%;
+  }
+  @keyframes barscroll {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+  }
+
+  /* ── ANNOUNCEMENT BANNER ── */
+  .announcement {
+    background: var(--ms-accent);
+    color: #000;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .announcement a { color: #000; text-decoration: underline; }
+
+  /* ── FEATURES ── */
+  .section { padding: 64px 60px; }
+  .section-title {
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+  }
+  .section-title strong { font-weight: 700; color: var(--ms-blue); }
+  .section-sub { color: #666; font-size: 16px; margin-bottom: 40px; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: #ddd;
+    border: 1px solid #ddd;
+  }
+  .feature-card {
+    background: #fff;
+    padding: 32px 28px;
+    transition: background .2s;
+  }
+  .feature-card:hover { background: #f0f6ff; }
+  .feature-icon {
+    font-size: 32px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .feature-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  .feature-card p { font-size: 14px; color: #555; line-height: 1.6; }
+  .feature-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tag-new { background: #107c10; color: #fff; }
+  .tag-pro { background: var(--ms-blue); color: #fff; }
+  .tag-coming { background: #ccc; color: #555; }
+
+  /* ── SPECS ── */
+  .specs-section { background: #1a1a2e; color: #fff; padding: 64px 60px; }
+  .specs-section .section-title { color: #fff; }
+  .specs-section .section-title strong { color: var(--ms-accent); }
+  .specs-section .section-sub { color: rgba(255,255,255,.6); }
+  .specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  @media (max-width: 700px) { .specs-grid { grid-template-columns: 1fr; } }
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table tr { border-bottom: 1px solid rgba(255,255,255,.1); }
+  .spec-table td { padding: 12px 0; font-size: 14px; }
+  .spec-table td:first-child { color: rgba(255,255,255,.5); width: 45%; }
+  .spec-table td:last-child { font-weight: 600; color: #fff; }
+  .spec-badge {
+    display: inline-block;
+    background: var(--ms-accent);
+    color: #000;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    margin-left: 6px;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { padding: 64px 60px; background: #f8f8f8; }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .testi-card {
+    background: #fff;
+    border-left: 4px solid var(--ms-blue);
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .testi-card blockquote {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+  .testi-author { font-size: 13px; font-weight: 700; color: #555; }
+  .testi-role { font-size: 12px; color: #999; }
+  .stars { color: var(--ms-accent); font-size: 16px; margin-bottom: 10px; }
+
+  /* ── PRICING ── */
+  .pricing { padding: 64px 60px; }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+    align-items: start;
+  }
+  .price-card {
+    border: 1px solid #ddd;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.1); }
+  .price-card.featured {
+    border-color: var(--ms-blue);
+    border-width: 2px;
+  }
+  .price-card.featured::before {
+    content: 'MOST POPULAR';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ms-blue);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 12px;
+    letter-spacing: 1px;
+  }
+  .price-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .price-amount { font-size: 48px; font-weight: 300; color: var(--ms-blue); line-height: 1; }
+  .price-amount sup { font-size: 20px; font-weight: 700; vertical-align: top; margin-top: 8px; display: inline-block; }
+  .price-period { font-size: 13px; color: #999; margin: 4px 0 20px; }
+  .price-features { list-style: none; text-align: left; margin-bottom: 24px; }
+  .price-features li { padding: 6px 0; font-size: 14px; color: #444; border-bottom: 1px solid #f0f0f0; }
+  .price-features li::before { content: '✓  '; color: var(--ms-green); font-weight: 700; }
+  .price-features li.no::before { content: '✗  '; color: #ccc; }
+  .price-features li.no { color: #bbb; }
+  .btn-price {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--ms-blue);
+    background: transparent;
+    color: var(--ms-blue);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+    letter-spacing: .5px;
+  }
+  .btn-price:hover, .price-card.featured .btn-price {
+    background: var(--ms-blue);
+    color: #fff;
+  }
+
+  /* ── FAQ ── */
+  .faq { padding: 64px 60px; background: #f8f8f8; }
+  .faq-list { margin-top: 40px; max-width: 800px; }
+  .faq-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .faq-q {
+    padding: 18px 20px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .faq-q:hover { background: #f0f6ff; }
+  .faq-q::after { content: '+'; font-size: 20px; color: var(--ms-blue); }
+  .faq-q.open::after { content: '−'; }
+  .faq-a {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s, padding .3s;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+  }
+  .faq-a.open { max-height: 300px; padding: 0 20px 18px; }
+
+  /* ── DOWNLOAD ── */
+  .download { background: linear-gradient(135deg, #0067b8, #003a6e); color: #fff; padding: 80px 60px; text-align: center; }
+  .download h2 { font-size: 40px; font-weight: 300; margin-bottom: 12px; }
+  .download p { font-size: 18px; opacity: .8; margin-bottom: 40px; }
+  .download-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .download-btn {
+    background: #fff;
+    color: var(--ms-blue);
+    border: none;
+    padding: 16px 36px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .download-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  .download-note { margin-top: 20px; font-size: 12px; opacity: .5; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1a1a1a;
+    color: rgba(255,255,255,.5);
+    padding: 40px 60px;
+    font-size: 12px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+  .footer-col h4 { color: #fff; font-size: 13px; margin-bottom: 12px; }
+  .footer-col a { display: block; color: rgba(255,255,255,.5); text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 10px;
+  }
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* ── EASTER EGG: chaos mode ── */
+  @keyframes chaosshift {
+    0%   { filter: hue-rotate(0deg); }
+    25%  { filter: hue-rotate(90deg); }
+    50%  { filter: hue-rotate(180deg); }
+    75%  { filter: hue-rotate(270deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  body.chaos-mode { animation: chaosshift 1s linear infinite; }
+  body.chaos-mode * { font-family: 'Courier Prime', monospace !important; }
+
+  .chaos-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff00ff;
+    color: #fff;
+    border: 3px solid #ffff00;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 9999;
+    animation: chaosshift 2s linear infinite;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 768px) {
+    .hero { flex-direction: column; padding: 48px 24px; }
+    .hero-preview { display: none; }
+    .section, .specs-section, .testimonials, .pricing, .faq, .download { padding: 48px 24px; }
+    footer { padding: 32px 24px; }
+    .specs-grid { grid-template-columns: 1fr; }
+    .topbar-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<nav class="topbar">
+  <a class="topbar-logo" href="w1_x.iso">
+    <div class="logo-squares">
+      
+    </div>
+    MikraShit
+  </a>
+  <div class="topbar-nav">
+    <a href="#">Products</a>
+    <a href="#">Solutions</a>
+    <a href="#">Support</a>
+    <a href="#">About</a>
+    <a href="#">Blog</a>
+  </div>
+  <button class="topbar-cta">Get Winla OS</button>
+</nav>
+
+<!-- ANNOUNCEMENT -->
+<div class="announcement">
+  🎉 Winla OS 1.0 is here! Available April 1st, 2025. <a href="w1_x.iso">Download the ISO now →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-squares">
+    <div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div>
+  </div>
+
+  <div class="hero-text">
+    <span class="hero-badge">New Release</span>
+    <h1><strong>Winla OS 1.0</strong><br>Computing, reimagined.</h1>
+    <p class="hero-sub">The most innovative operating system of 1985, rebuilt for today. Featuring our revolutionary AI assistant, 25-step loading experience, and industry-leading color technology.</p>
+    <div class="hero-buttons">
+      <a href="w1_x.iso" class="btn-primary">Download Free ISO</a>
+      <a href="#features" class="btn-secondary">Learn more</a>
+    </div>
+  </div>
+
+  <div class="hero-preview">
+    <div class="os-mockup">
+      <div class="os-title">
+        <span>Program Manager — Winla OS 1.0</span>
+        <div class="os-title-btns">
+          <span>_</span><span>□</span><span>✕</span>
+        </div>
+      </div>
+      <div class="os-bar"></div>
+      <div class="os-body">
+        <div class="os-line"><span class="r1">████</span><span class="r2">████</span><span class="r3">████</span><span class="r4">████</span><span class="r5">████</span><span class="r6">████</span><span class="r7">████</span></div>
+        <div class="os-line r3">&nbsp;[FM]&nbsp;File Manager&nbsp;&nbsp;&nbsp;&nbsp;[ED]&nbsp;Notepad</div>
+        <div class="os-line r5">&nbsp;[CA]&nbsp;Calculator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[CP]&nbsp;Control Panel</div>
+        <div class="os-line r1">&nbsp;[MS]&nbsp;MS-DOS Prompt&nbsp;&nbsp;[AI]&nbsp;Winla AI</div>
+        <div class="os-line r4">&nbsp;[PT]&nbsp;Paint&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[CK]&nbsp;Clock</div>
+        <div class="os-line r2">&nbsp;[RV]&nbsp;Reversi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[CF]&nbsp;Cardfile</div>
+        <div class="os-line"><span class="r1">████</span><span class="r4">████</span><span class="r2">████</span><span class="r6">████</span><span class="r3">████</span><span class="r5">████</span><span class="r7">████</span></div>
+        <div class="os-line r7">&nbsp;UP/DOWN=Select&nbsp;TAB=Switch&nbsp;ENTER=Open</div>
+        <div class="os-line r8">&nbsp;Ready&nbsp;-&nbsp;Disk:&nbsp;MRD0&nbsp;(Mounted)</div>
+      </div>
+    </div>
+    <p style="color:rgba(255,255,255,.4);font-size:12px;text-align:center;margin-top:10px;">Actual screenshot. Colors may vary. (They will vary.)</p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <h2 class="section-title">Everything you <strong>never knew</strong> you needed.</h2>
+  <p class="section-sub">Winla OS 1.0 ships with a complete suite of productivity tools, all carefully crafted to maximize the computing experience.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🎨</span>
+      <h3>Industry-Leading Color Technology</h3>
+      <p>Winla OS features up to 16 simultaneous colors, displayed in our patented ChaosMode™ layout. Each window, each text line, and each pixel is a unique visual experience. No two screens look the same.</p>
+      <span class="feature-tag tag-new">Exclusive</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🤖</span>
+      <h3>Winla AI Assistant</h3>
+      <p>Powered by our proprietary 0xDEADBEEF neural engine, Winla AI answers your questions with unparalleled confidence. Accuracy not guaranteed. Or expected.</p>
+      <span class="feature-tag tag-new">New</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⏳</span>
+      <h3>The 2-Minute Loading Experience</h3>
+      <p>Unlike competing systems that boot in seconds, Winla OS provides a full 2-minute guided loading journey with 25 unique messages. Build anticipation. Savor the moment.</p>
+      <span class="feature-tag tag-pro">Premium</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔄</span>
+      <h3>Spontaneous Update System</h3>
+      <p>Every boot has a 50% chance of installing critical updates. You never know what today brings! Keeps the computing experience fresh and exciting every single time.</p>
+      <span class="feature-tag tag-new">Innovative</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💾</span>
+      <h3>FAT16 Filesystem</h3>
+      <p>Built on battle-tested 1980s technology. Our custom RAM-disk implementation provides 800KB of lightning-fast storage. Plenty of space for your most important documents.</p>
+      <span class="feature-tag tag-pro">Enterprise</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🎮</span>
+      <h3>Full Application Suite</h3>
+      <p>Notepad, Calculator, File Manager, Paint, Clock, MS-DOS Prompt, and more. Some applications may display an error message instead of opening. This is a feature.</p>
+      <span class="feature-tag tag-coming">Mostly Working</span>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section class="specs-section">
+  <h2 class="section-title">Technical <strong>Specifications</strong></h2>
+  <p class="section-sub">Winla OS is engineered to the
